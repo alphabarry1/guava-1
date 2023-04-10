@@ -207,7 +207,6 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
   @J2ktIncompatible
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
-    stream.writeObject(keyComparator());
     stream.writeObject(valueComparator());
     Serialization.writeMultimap(this, stream);
   }
