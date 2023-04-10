@@ -207,9 +207,10 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   @SafeVarargs // For Eclipse. For internal javac we have disabled this pointless type of warning.
   public static <E> ImmutableList<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10, E e11, E e12, E... others) {
+      int nombreElements = 12;
     checkArgument(
-        others.length <= Integer.MAX_VALUE - 12, "the total number of elements must fit in an int");
-    Object[] array = new Object[12 + others.length];
+        others.length <= Integer.MAX_VALUE - nombreElements , "the total number of elements must fit in an int");
+    Object[] array = new Object[nombreElements  + others.length];
     array[0] = e1;
     array[1] = e2;
     array[2] = e3;
@@ -222,7 +223,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     array[9] = e10;
     array[10] = e11;
     array[11] = e12;
-    System.arraycopy(others, 0, array, 12, others.length);
+    System.arraycopy(others, 0, array, nombreElements , others.length);
     return construct(array);
   }
 
@@ -480,7 +481,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
     @Override
     public int size() {
-      return length;
+      return this.length;
     }
 
     @Override
@@ -706,6 +707,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   @J2ktIncompatible // serialization
   static class SerializedForm implements Serializable {
     final Object[] elements;
+    private static final long serialVersionUID = 0;
 
     SerializedForm(Object[] elements) {
       this.elements = elements;
@@ -715,7 +717,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       return copyOf(elements);
     }
 
-    private static final long serialVersionUID = 0;
+    
   }
 
   @J2ktIncompatible // serialization
@@ -755,18 +757,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return new ImmutableList.Builder<E>(expectedSize);
   }
 
-  /**
-   * A builder for creating immutable list instances, especially {@code public static final} lists
-   * ("constant lists"). Example:
-   *
-   * <pre>{@code
-   * public static final ImmutableList<Color> GOOGLE_COLORS
-   *     = new ImmutableList.Builder<Color>()
-   *         .addAll(WEBSAFE_COLORS)
-   *         .add(new Color(0, 191, 255))
-   *         .build();
-   * }</pre>
-   *
+  
    * <p>Elements appear in the resulting list in the same order they were added to the builder.
    *
    * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
@@ -794,15 +785,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       this.size = 0;
     }
 
-    private void getReadyToExpandTo(int minCapacity) {
-      if (contents.length < minCapacity) {
-        this.contents = Arrays.copyOf(contents, expandedCapacity(contents.length, minCapacity));
-        forceCopy = false;
-      } else if (forceCopy) {
-        contents = Arrays.copyOf(contents, contents.length);
-        forceCopy = false;
-      }
-    }
+    
 
     /**
      * Adds {@code element} to the {@code ImmutableList}.
@@ -835,19 +818,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       return this;
     }
 
-    private void add(@Nullable Object[] elements, int n) {
-      getReadyToExpandTo(size + n);
-      /*
-       * The following call is not statically checked, since arraycopy accepts plain Object for its
-       * parameters. If it were statically checked, the checker would still be OK with it, since
-       * we're copying into a `contents` array whose type allows it to contain nulls. Still, it's
-       * worth noting that we promise not to put nulls into the array in the first `size` elements.
-       * We uphold that promise here because our callers promise that `elements` will not contain
-       * nulls in its first `n` elements.
-       */
-      System.arraycopy(elements, 0, contents, size, n);
-      size += n;
-    }
+    
 
     /**
      * Adds each element of {@code elements} to the {@code ImmutableList}.
@@ -903,4 +874,26 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       return asImmutableList(contents, size);
     }
   }
+  private void getReadyToExpandTo(int minCapacity) {
+      if (contents.length < minCapacity) {
+        this.contents = Arrays.copyOf(contents, expandedCapacity(contents.length, minCapacity));
+        forceCopy = false;
+      } else if (forceCopy) {
+        contents = Arrays.copyOf(contents, contents.length);
+        forceCopy = false;
+      }
+    }
+  private void add(@Nullable Object[] elements, int n) {
+      getReadyToExpandTo(size + n);
+      /*
+       * The following call is not statically checked, since arraycopy accepts plain Object for its
+       * parameters. If it were statically checked, the checker would still be OK with it, since
+       * we're copying into a `contents` array whose type allows it to contain nulls. Still, it's
+       * worth noting that we promise not to put nulls into the array in the first `size` elements.
+       * We uphold that promise here because our callers promise that `elements` will not contain
+       * nulls in its first `n` elements.
+       */
+      System.arraycopy(elements, 0, contents, size, n);
+      size += n;
+    }
 }
