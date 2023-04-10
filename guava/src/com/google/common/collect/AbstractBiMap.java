@@ -52,7 +52,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
-
+  @GwtIncompatible // Not needed in emulated source.
+  @J2ktIncompatible
+  private static final long serialVersionUID = 0;
   @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (lateinit)
   private transient Map<K, V> delegate;
 
@@ -515,7 +517,5 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     private static final long serialVersionUID = 0;
   }
 
-  @GwtIncompatible // Not needed in emulated source.
-  @J2ktIncompatible
-  private static final long serialVersionUID = 0;
+  
 }
