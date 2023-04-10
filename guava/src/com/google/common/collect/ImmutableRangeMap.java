@@ -54,6 +54,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
 
   private static final ImmutableRangeMap<Comparable<?>, Object> EMPTY =
       new ImmutableRangeMap<>(ImmutableList.<Range<Comparable<?>>>of(), ImmutableList.of());
+  private static final long serialVersionUID = 0;
 
   /**
    * Returns a {@code Collector} that accumulates the input elements into a new {@code
@@ -223,6 +224,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     }
     Range<K> firstRange = ranges.get(0);
     Range<K> lastRange = ranges.get(ranges.size() - 1);
+    RangeMap<V, V> rangeMap = TreeRangeMap.create();
     return Range.create(firstRange.lowerBound, lastRange.upperBound);
   }
 
@@ -235,9 +237,10 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final void put(Range<K> range, V value) {
-    throw new UnsupportedOperationException();
+  public final void putTmp(V val1,V val2, V value){
+    this.rangeMap.put(Range.closed(val1, val2),value);
   }
+  
 
   /**
    * Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.
@@ -447,5 +450,5 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     throw new InvalidObjectException("Use SerializedForm");
   }
 
-  private static final long serialVersionUID = 0;
+ 
 }
