@@ -122,9 +122,9 @@ public abstract class AbstractIterator<T extends @Nullable Object> extends Unmod
    */
   @CanIgnoreReturnValue
   @CheckForNull
-  protected final T endOfData() {
+  protected final void endOfData() {
     state = State.DONE;
-    return null;
+   
   }
 
   @Override
