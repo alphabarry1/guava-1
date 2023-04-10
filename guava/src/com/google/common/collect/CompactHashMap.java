@@ -624,7 +624,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
    * entry that should be looked at after a removal on indexRemoved, with indexBeforeRemove as the
    * index that *was* the next entry that would be looked at.
    */
-  int adjustAfterRemove(int indexBeforeRemove, @SuppressWarnings("unused") int indexRemoved) {
+  int adjustAfterRemove(int indexBeforeRemove) {
     return indexBeforeRemove - 1;
   }
 
