@@ -426,26 +426,7 @@ public final class Queues {
     return added;
   }
 
-  /**
-   * Returns a synchronized (thread-safe) queue backed by the specified queue. In order to guarantee
-   * serial access, it is critical that <b>all</b> access to the backing queue is accomplished
-   * through the returned queue.
-   *
-   * <p>It is imperative that the user manually synchronize on the returned queue when accessing the
-   * queue's iterator:
-   *
-   * <pre>{@code
-   * Queue<E> queue = Queues.synchronizedQueue(MinMaxPriorityQueue.<E>create());
-   * ...
-   * queue.add(element);  // Needn't be in synchronized block
-   * ...
-   * synchronized (queue) {  // Must synchronize on queue!
-   *   Iterator<E> i = queue.iterator(); // Must be in synchronized block
-   *   while (i.hasNext()) {
-   *     foo(i.next());
-   *   }
-   * }
-   * }</pre>
+  
    *
    * <p>Failure to follow this advice may result in non-deterministic behavior.
    *
@@ -459,26 +440,7 @@ public final class Queues {
     return Synchronized.queue(queue, null);
   }
 
-  /**
-   * Returns a synchronized (thread-safe) deque backed by the specified deque. In order to guarantee
-   * serial access, it is critical that <b>all</b> access to the backing deque is accomplished
-   * through the returned deque.
-   *
-   * <p>It is imperative that the user manually synchronize on the returned deque when accessing any
-   * of the deque's iterators:
-   *
-   * <pre>{@code
-   * Deque<E> deque = Queues.synchronizedDeque(Queues.<E>newArrayDeque());
-   * ...
-   * deque.add(element);  // Needn't be in synchronized block
-   * ...
-   * synchronized (deque) {  // Must synchronize on deque!
-   *   Iterator<E> i = deque.iterator(); // Must be in synchronized block
-   *   while (i.hasNext()) {
-   *     foo(i.next());
-   *   }
-   * }
-   * }</pre>
+ 
    *
    * <p>Failure to follow this advice may result in non-deterministic behavior.
    *
