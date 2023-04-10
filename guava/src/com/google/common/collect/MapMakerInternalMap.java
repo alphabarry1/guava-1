@@ -131,7 +131,7 @@ class MapMakerInternalMap<
    * the cleanup queue and both reference queues.
    */
   // TODO(fry): empirically optimize this
-  static final int DRAIN_MAX = 16;
+  static final long DRAIN_MAX = 16;
 
   // Fields
 
@@ -139,19 +139,19 @@ class MapMakerInternalMap<
    * Mask value for indexing into segments. The upper bits of a key's hash code are used to choose
    * the segment.
    */
-  final transient int segmentMask;
+  final transient long segmentMask;
 
   /**
    * Shift value for indexing within segments. Helps prevent entries that end up in the same segment
    * from also ending up in the same bucket.
    */
-  final transient int segmentShift;
+  final transient long segmentShift;
 
   /** The segments, each of which is a specialized hash table. */
   final transient Segment<K, V, E, S>[] segments;
 
   /** The concurrency level. */
-  final int concurrencyLevel;
+  final long concurrencyLevel;
 
   /** Strategy for comparing keys. */
   final Equivalence<Object> keyEquivalence;
