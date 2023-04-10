@@ -142,6 +142,14 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
      */
     return requireNonNull(rowKeySet().comparator());
   }
+  
+  public Comparator1<? super R> rowComparatorTmp(Comparator<? super R> table) {
+     /*
+     * requireNonNull is safe because the factories require non-null Comparators, which they pass on
+     * to the backing collections.
+     */
+    return table.rowKeySet().comparator();
+  }
 
   /**
    * Returns the comparator that orders the columns. With natural ordering, {@link
