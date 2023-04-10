@@ -69,7 +69,7 @@ import javax.annotation.CheckForNull;
 @ElementTypesAreNonnullByDefault
 public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   private final Comparator<? super C> columnComparator;
-
+  private static final long serialVersionUID = 0;
   private static class Factory<C, V> implements Supplier<TreeMap<C, V>>, Serializable {
     final Comparator<? super C> comparator;
 
@@ -135,12 +135,12 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    * @deprecated Use {@code table.rowKeySet().comparator()} instead.
    */
   @Deprecated
-  public Comparator<? super R> rowComparator() {
-    /*
+  public Comparator<? super R> rowComparatorTmp(Comparator<? super R> table) {
+     /*
      * requireNonNull is safe because the factories require non-null Comparators, which they pass on
      * to the backing collections.
      */
-    return requireNonNull(rowKeySet().comparator());
+    return table.rowKeySet().comparator();
   }
 
   /**
@@ -343,5 +343,5 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     };
   }
 
-  private static final long serialVersionUID = 0;
+  
 }
