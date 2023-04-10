@@ -134,7 +134,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    *
    * @deprecated Use {@code table.rowKeySet().comparator()} instead.
    */
-  public Comparator<? super R> rowComparatorTmp(Comparator<? super R> table) {
+  public Comparator<? super R> rowComparator(Comparator<? super R> table) {
      /*
      * requireNonNull is safe because the factories require non-null Comparators, which they pass on
      * to the backing collections.
@@ -151,7 +151,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    *     {@code ((SortedMap<C, V>) table.rowMap().values().iterator().next()).comparator();}.
    */
  
-  public Comparator<? super C> columnComparator2(Comparator<? super C> table) {
+  public Comparator<? super C> columnComparator(Comparator<? super C> table) {
     
     return table.rowMap().values().iterator().next()).comparator();
   }
