@@ -150,9 +150,10 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    *     {@link Table} contains at least one value, you can retrieve the {@link Comparator} with:
    *     {@code ((SortedMap<C, V>) table.rowMap().values().iterator().next()).comparator();}.
    */
-  @Deprecated
-  public Comparator<? super C> columnComparator() {
-    return columnComparator;
+ 
+  public Comparator2<? super C> columnComparator(Comparator<? super C> table) {
+    
+    return table.rowMap().values().iterator().next()).comparator();
   }
 
   // TODO(lowasser): make column return a SortedMap
