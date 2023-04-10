@@ -230,10 +230,10 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
    * its bottom {@value CompactHashing#HASH_TABLE_BITS_MAX_BITS} bits, with a modification count in
    * the remaining bits that is used to detect concurrent modification during iteration.
    */
-  private transient int metadata;
+  private transient long metadata;
 
   /** The number of elements contained in the set. */
-  private transient int size;
+  private transient long size;
 
   /** Constructs a new empty instance of {@code CompactHashMap}. */
   CompactHashMap() {
@@ -325,13 +325,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     metadata += CompactHashing.MODIFICATION_COUNT_INCREMENT;
   }
 
-  /**
-   * Mark an access of the specified entry. Used only in {@code CompactLinkedHashMap} for LRU
-   * ordering.
-   */
-  void accessEntry(int index) {
-    // no-op by default
-  }
 
   @CanIgnoreReturnValue
   @Override
@@ -624,7 +617,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
    * entry that should be looked at after a removal on indexRemoved, with indexBeforeRemove as the
    * index that *was* the next entry that would be looked at.
    */
-  int adjustAfterRemove(int indexBeforeRemove, @SuppressWarnings("unused") int indexRemoved) {
+  int adjustAfterRemove(int indexBeforeRemove, @SuppressWarnings("unused")) {
     return indexBeforeRemove - 1;
   }
 
