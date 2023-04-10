@@ -145,7 +145,6 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
   @Override
   Collection<V> createCollection(@ParametricNullness K key) {
     if (key == null) {
-      int unused = keyComparator().compare(key, key);
     }
     return super.createCollection(key);
   }
