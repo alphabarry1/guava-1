@@ -37,6 +37,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 @ElementTypesAreNonnullByDefault
 abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMapBasedMultimap<K, V> implements ListMultimap<K, V> {
+    private static final long serialVersionUID = 6588350623831699109L;
   /**
    * Creates a new multimap that uses the provided map.
    *
@@ -140,5 +141,5 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
     return super.equals(object);
   }
 
-  private static final long serialVersionUID = 6588350623831699109L;
+  
 }
